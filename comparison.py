@@ -505,3 +505,72 @@ not    # Logical NOT
 ((~a))      # Bitwise NOT
 ((a << b))  # Left shift
 ((a >> b))  # Right shift
+
+# SWITCH STATEMENTS
+# Python (3.10+)
+match value:
+    case 1:
+        print("One")
+    case 2:
+        print("Two")
+    case _:
+        print("Other")
+
+# JavaScript/TypeScript
+switch (value) {
+    case 1:
+        console.log("One");
+        break;
+    case 2:
+        console.log("Two");
+        break;
+    default:
+        console.log("Other");
+        break;
+}
+
+# C++
+switch (value) {
+    case 1:
+        std::cout << "One" << std::endl;
+        break;
+    case 2:
+        std::cout << "Two" << std::endl;
+        break;
+    default:
+        std::cout << "Other" << std::endl;
+        break;
+}
+
+# Java
+switch (value) {
+    case 1:
+        System.out.println("One");
+        break;
+    case 2:
+        System.out.println("Two");
+        break;
+    default:
+        System.out.println("Other");
+        break;
+}
+
+# Modern Java (12+)
+switch (value) {
+    case 1 -> System.out.println("One");
+    case 2 -> System.out.println("Two");
+    default -> System.out.println("Other");
+}
+
+# Bash
+case $value in
+    1)
+        echo "One"
+        ;;
+    2)
+        echo "Two"
+        ;;
+    *)
+        echo "Other"
+        ;;
+esac

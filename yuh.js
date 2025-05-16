@@ -1,3 +1,138 @@
+// Interface-like contract (JavaScript doesn't have true interfaces)
+// We can use JSDoc to document expected methods
+/**
+ * @interface
+ */
+class MathOperations {
+    performOperation(a, b) { throw new Error('Must implement performOperation'); }
+    getOperationName() { throw new Error('Must implement getOperationName'); }
+}
+
+// Abstract base class - using ES6+ classes
+class AbstractCalculator {
+    // Protected members can be simulated using symbols or naming conventions
+    // Prefix with _ to indicate "private" (by convention)
+    constructor(type) {
+        if (this.constructor === AbstractCalculator) {
+            throw new Error('Abstract classes cannot be instantiated');
+        }
+        this._calculatorType = type;
+    }
+
+    // Abstract method
+    getResult() {
+        throw new Error('Method getResult() must be implemented');
+    }
+}
+
+// Main Calculator class implementing inheritance
+class Calculator extends AbstractCalculator {
+    // Private fields (ES2022+)
+    #result;
+    #operationsPerformed;
+    #operationName;
+
+    constructor() {
+        // Call parent constructor
+        super('Basic Calculator');
+        this.#result = 0;
+        this.#operationsPerformed = 0;
+    }
+
+    // Implementing abstract method
+    getResult() {
+        return this.#result;
+    }
+
+    // Getter - part of encapsulation
+    get operationsPerformed() {
+        return this.#operationsPerformed;
+    }
+
+    // Instance methods
+    add(a, b) {
+        this.#result = a + b;
+        this.#operationsPerformed++;
+        this.#operationName = 'Addition';
+        return this.#result;
+    }
+
+    subtract(a, b) {
+        this.#result = a - b;
+        this.#operationsPerformed++;
+        this.#operationName = 'Subtraction';
+        return this.#result;
+    }
+
+    multiply(a, b) {
+        this.#result = a * b;
+        this.#operationsPerformed++;
+        this.#operationName = 'Multiplication';
+        return this.#result;
+    }
+
+    divide(a, b) {
+        this.#operationsPerformed++;
+        this.#operationName = 'Division';
+        if (b === 0) {
+            return 'Error: Cannot divide by zero';
+        }
+        this.#result = a / b;
+        return this.#result;
+    }
+}
+
+/* 
+ * JavaScript OOP Concepts Demonstrated:
+ * 
+ * 1. Classes (ES6+)
+ *    - Blueprint for objects
+ *    - Introduced in ES6 as syntactic sugar over prototypes
+ *    - Constructor method for initialization
+ * 
+ * 2. Private Fields (#)
+ *    - Truly private properties (ES2022+)
+ *    - Only accessible within the class
+ *    - Denoted by # prefix
+ * 
+ * 3. Inheritance
+ *    - Using 'extends' keyword
+ *    - 'super' to call parent constructor
+ *    - Single inheritance only
+ * 
+ * 4. Encapsulation
+ *    - Private fields (#property)
+ *    - Getters/Setters
+ *    - Method privacy
+ * 
+ * 5. Abstraction
+ *    - Abstract base class
+ *    - Method contracts
+ *    - Implementation hiding
+ * 
+ * 6. Interface-like Patterns
+ *    - No true interfaces in JavaScript
+ *    - Can use classes or JSDoc for contracts
+ * 
+ * 7. Method Types
+ *    - Constructor methods
+ *    - Instance methods
+ *    - Getter/Setter methods
+ *    - Static methods (not shown)
+ * 
+ * Key Differences from Traditional OOP:
+ * - Prototypal inheritance vs Classical inheritance
+ * - No true interfaces
+ * - Private fields are a recent addition
+ * - 'this' binding can be tricky
+ */
+
+// Example usage:
+const calc = new Calculator();
+console.log(calc.add(5, 3));        // 8
+console.log(calc.operationsPerformed); // 1
+// console.log(calc.#result);        // Error: Private field
+
 // Calculator functions
 //here is how we import the readline module in node.js
 // const readline = require('readline');

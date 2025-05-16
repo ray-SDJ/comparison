@@ -1,57 +1,142 @@
 # A simple calculator program to demonstrate Python program structure
 # here is how we import the modules
 import math
+from abc import ABC, abstractmethod
 
-class Calculator:
+# Interface-like abstract class (Python uses ABC for interfaces)
+class MathOperations(ABC):
+    @abstractmethod
+    def perform_operation(self, a: float, b: float) -> float:
+        """Abstract method that must be implemented by subclasses"""
+        pass
+
+    @abstractmethod
+    def get_operation_name(self) -> str:
+        """Abstract method that must be implemented by subclasses"""
+        pass
+
+# Abstract base class
+class AbstractCalculator(ABC):
+    def __init__(self, calc_type: str):
+        """
+        Protected member (_calc_type) - by convention, single underscore
+        indicates protected access
+        """
+        self._calc_type = calc_type
+        
+    @abstractmethod
+    def get_result(self) -> float:
+        """Abstract method that must be implemented by subclasses"""
+        pass
+
+# Main Calculator class implementing inheritance and interfaces
+class Calculator(AbstractCalculator, MathOperations):
     def __init__(self):
-        self.result = 0
-    
-    def add(self, a, b):
-        return a + b
-    
-    def subtract(self, a, b):
-        return a - b
-    
-    def multiply(self, a, b):
-        return a * b
-    
-    def divide(self, a, b):
+        """
+        Private members (double underscore) - name mangling in Python
+        provides weak privacy
+        """
+        super().__init__("Basic Calculator")
+        self.__result = 0
+        self.__operations_performed = 0
+        self.__operation_name = ""
+
+    # Implementation of abstract method
+    def get_result(self) -> float:
+        return self.__result
+
+    # Implementation of interface methods
+    def perform_operation(self, a: float, b: float) -> float:
+        return self.add(a, b)
+
+    def get_operation_name(self) -> str:
+        return self.__operation_name
+
+    # Property decorator - Pythonic way of implementing getters
+    @property
+    def operations_performed(self) -> int:
+        return self.__operations_performed
+
+    # Instance methods
+    def add(self, a: float, b: float) -> float:
+        self.__result = a + b
+        self.__operations_performed += 1
+        self.__operation_name = "Addition"
+        return self.__result
+
+    def subtract(self, a: float, b: float) -> float:
+        self.__result = a - b
+        self.__operations_performed += 1
+        self.__operation_name = "Subtraction"
+        return self.__result
+
+    def multiply(self, a: float, b: float) -> float:
+        self.__result = a * b
+        self.__operations_performed += 1
+        self.__operation_name = "Multiplication"
+        return self.__result
+
+    def divide(self, a: float, b: float) -> str:
+        self.__operations_performed += 1
+        self.__operation_name = "Division"
         if b == 0:
             return "Error: Cannot divide by zero"
-        return a / b
+        self.__result = a / b
+        return str(self.__result)
 
-def print_menu():
-    print("\nCalculator Menu:")
-    print("1. Add")
-    print("2. Subtract")
-    print("3. Multiply")
-    print("4. Divide")
-    print("5. Exit")
+"""
+Python OOP Concepts Demonstrated:
 
+1. Classes:
+   - Blueprint for objects (Calculator class)
+   - Abstract base classes (AbstractCalculator)
+   - Multiple inheritance supported
+
+2. Objects:
+   - Instances of classes
+   - Created using constructor (__init__)
+   - Have attributes and methods
+
+3. Encapsulation:
+   - Private attributes (__result)
+   - Protected attributes (_calc_type)
+   - Properties (@property)
+   - Method encapsulation
+
+4. Inheritance:
+   - Using class Parent(Base)
+   - Multiple inheritance
+   - super() for parent class access
+
+5. Abstraction:
+   - ABC (Abstract Base Classes)
+   - @abstractmethod decorator
+   - Interface-like contracts
+
+6. Access Modifiers:
+   - Private (double underscore)
+   - Protected (single underscore)
+   - Public (no underscore)
+
+7. Special Methods:
+   - __init__ constructor
+   - Properties
+   - Type hints
+
+Key Python-Specific Features:
+- Duck typing
+- Multiple inheritance
+- Name mangling for privacy
+- Decorators for properties
+- Type hints for clarity
+"""
+
+# Example usage
 def main():
     calc = Calculator()
-    
-    while True:
-        print_menu()
-        choice = input("Enter your choice (1-5): ")
-        
-        if choice == '5':
-            print("Goodbye!")
-            break
-            
-        num1 = float(input("Enter first number: "))
-        num2 = float(input("Enter second number: "))
-        
-        if choice == '1':
-            print(f"Result: {calc.add(num1, num2)}")
-        elif choice == '2':
-            print(f"Result: {calc.subtract(num1, num2)}")
-        elif choice == '3':
-            print(f"Result: {calc.multiply(num1, num2)}")
-        elif choice == '4':
-            print(f"Result: {calc.divide(num1, num2)}")
-        else:
-            print("Invalid choice!")
+    print(calc.add(5, 3))        # 8
+    print(calc.operations_performed)  # 1
+    # print(calc.__result)       # AttributeError - private attribute
 
 if __name__ == "__main__":
     main()

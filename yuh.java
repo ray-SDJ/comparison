@@ -1,32 +1,142 @@
-// A simple calculator program to demonstrate Java program structure
-import java.util.Scanner;
+// Interface definition - defines a contract that implementing classes must follow
+interface MathOperations {
+    double performOperation(double a, double b);
+    String getOperationName();
+}
 
-class Calculator {
+// Abstract class - can't be instantiated, serves as a base for other classes
+abstract class AbstractCalculator {
+    // Protected member - accessible in this class and its subclasses
+    protected String calculatorType;
+    
+    // Abstract method - must be implemented by concrete subclasses
+    abstract double getResult();
+    
+    // Constructor
+    public AbstractCalculator(String type) {
+        this.calculatorType = type;
+    }
+}
+
+// Main Calculator class that inherits from AbstractCalculator and implements MathOperations
+class Calculator extends AbstractCalculator implements MathOperations {
+    // Private members - demonstrate encapsulation
+    // Only accessible within this class
     private double result;
+    private int operationsPerformed;
+    private String operationName;
 
+    // Constructor - special method called when creating an object
     public Calculator() {
+        // Call parent class constructor
+        super("Basic Calculator");
         this.result = 0;
+        this.operationsPerformed = 0;
     }
 
+    // Implementation of abstract method from parent class
+    @Override
+    double getResult() {
+        return this.result;
+    }
+
+    // Implementation of interface methods
+    @Override
+    public double performOperation(double a, double b) {
+        return add(a, b);
+    }
+
+    @Override
+    public String getOperationName() {
+        return this.operationName;
+    }
+
+    // Getter method - part of encapsulation to safely access private members
+    public int getOperationsPerformed() {
+        return operationsPerformed;
+    }
+
+    // Instance methods - define the behavior of Calculator objects
     public double add(double a, double b) {
-        return a + b;
+        result = a + b;
+        operationsPerformed++;
+        operationName = "Addition";
+        return result;
     }
 
     public double subtract(double a, double b) {
-        return a - b;
+        result = a - b;
+        operationsPerformed++;
+        operationName = "Subtraction";
+        return result;
     }
 
     public double multiply(double a, double b) {
-        return a * b;
+        result = a * b;
+        operationsPerformed++;
+        operationName = "Multiplication";
+        return result;
     }
 
     public String divide(double a, double b) {
+        operationsPerformed++;
+        operationName = "Division";
         if (b == 0) {
             return "Error: Cannot divide by zero";
         }
-        return String.valueOf(a / b);
+        result = a / b;
+        return String.valueOf(result);
     }
 }
+
+/* 
+ * OOP Concepts Demonstrated:
+ * 
+ * 1. Classes:
+ *    - Blueprint for objects (Calculator class)
+ *    - Abstract classes (AbstractCalculator)
+ *    - Can implement interfaces and extend other classes
+ * 
+ * 2. Objects:
+ *    - Instances of classes
+ *    - Created using constructor (new Calculator())
+ *    - Have state (fields) and behavior (methods)
+ * 
+ * 3. Encapsulation:
+ *    - Private fields (result, operationsPerformed)
+ *    - Public methods to access private fields (getters/setters)
+ *    - Protects data from outside interference
+ * 
+ * 4. Inheritance:
+ *    - Calculator extends AbstractCalculator
+ *    - Inherits fields and methods from parent
+ *    - Can override parent methods
+ * 
+ * 5. Abstraction:
+ *    - Abstract class AbstractCalculator
+ *    - Abstract methods define contract
+ *    - Hide implementation details
+ * 
+ * 6. Interfaces:
+ *    - MathOperations interface
+ *    - Define contract for classes
+ *    - Enable polymorphism
+ * 
+ * 7. Access Modifiers:
+ *    - private: only within class
+ *    - protected: class and subclasses
+ *    - public: accessible everywhere
+ *    - default (no modifier): package-level access
+ * 
+ * 8. Method Types:
+ *    - Constructor methods
+ *    - Instance methods
+ *    - Override methods
+ *    - Abstract methods
+ */
+
+// A simple calculator program to demonstrate Java program structure
+import java.util.Scanner;
 
 public class yuh {
     private static void printMenu() {

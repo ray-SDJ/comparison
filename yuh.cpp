@@ -1,30 +1,96 @@
 #include <iostream>
 #include <string>
 
-class Calculator {
-private:
-    double result;
+// Interface-like abstract class (pure virtual class in C++)
+class MathOperations {
+public:
+    virtual double performOperation(double a, double b) = 0;
+    virtual std::string getOperationName() const = 0;
+    virtual ~MathOperations() = default;  // Virtual destructor for interface
+};
+
+// Abstract base class
+class AbstractCalculator {
+protected:
+    // Protected member
+    const std::string calculatorType;
 
 public:
-    Calculator() : result(0) {}
+    // Constructor
+    explicit AbstractCalculator(std::string type) 
+        : calculatorType(std::move(type)) {}
+    
+    // Pure virtual method
+    virtual double getResult() const = 0;
+    
+    // Virtual destructor
+    virtual ~AbstractCalculator() = default;
+};
 
+// Main Calculator class implementing inheritance
+class Calculator : public AbstractCalculator, public MathOperations {
+private:
+    // Private members demonstrating encapsulation
+    double result;
+    int operationsPerformed;
+    std::string operationName;
+
+public:
+    // Constructor with initializer list
+    Calculator() 
+        : AbstractCalculator("Basic Calculator")
+        , result(0)
+        , operationsPerformed(0)
+        , operationName("") {}
+
+    // Implementation of abstract methods
+    double getResult() const override {
+        return result;
+    }
+
+    double performOperation(double a, double b) override {
+        return add(a, b);
+    }
+
+    std::string getOperationName() const override {
+        return operationName;
+    }
+
+    // Getter method (const member function)
+    int getOperationsPerformed() const {
+        return operationsPerformed;
+    }
+
+    // Instance methods
     double add(double a, double b) {
-        return a + b;
+        result = a + b;
+        operationName = "Addition";
+        operationsPerformed++;
+        return result;
     }
 
     double subtract(double a, double b) {
-        return a - b;
+        result = a - b;
+        operationName = "Subtraction";
+        operationsPerformed++;
+        return result;
     }
 
     double multiply(double a, double b) {
-        return a * b;
+        result = a * b;
+        operationName = "Multiplication";
+        operationsPerformed++;
+        return result;
     }
 
     std::string divide(double a, double b) {
         if (b == 0) {
             return "Error: Cannot divide by zero";
         }
-        return std::to_string(a / b);
+        result = a / b;
+        operationName = "Division";
+        operationsPerformed++;
+        return std::to_string(result);
     }
 };
 

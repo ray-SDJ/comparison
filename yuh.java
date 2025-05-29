@@ -1,35 +1,33 @@
-// Interface definition - defines a contract that implementing classes must follow
+// 1. Interface - Top level contract
 interface MathOperations {
-    double performOperation(double a, double b);
-    String getOperationName();
+    double performOperation(double a, double b);  // Abstract by default
+    String getOperationName();                    // Must be implemented
 }
 
-// Abstract class - can't be instantiated, serves as a base for other classes
+// 2. Abstract Class - Partial implementation
 abstract class AbstractCalculator {
-    // Protected member - accessible in this class and its subclasses
+    // Protected member - accessible to subclasses
     protected String calculatorType;
-    
-    // Abstract method - must be implemented by concrete subclasses
-    abstract double getResult();
     
     // Constructor
     public AbstractCalculator(String type) {
         this.calculatorType = type;
     }
+    
+    // Abstract method - must be implemented by subclasses
+    abstract double getResult();
 }
 
-// Main Calculator class that inherits from AbstractCalculator and implements MathOperations
+// 3. Concrete Class - Full implementation
 class Calculator extends AbstractCalculator implements MathOperations {
-    // Private members - demonstrate encapsulation
-    // Only accessible within this class
+    // Private fields - encapsulation
     private double result;
     private int operationsPerformed;
     private String operationName;
 
-    // Constructor - special method called when creating an object
+    // Constructor chain using super()
     public Calculator() {
-        // Call parent class constructor
-        super("Basic Calculator");
+        super("Basic Calculator");  // Call parent constructor
         this.result = 0;
         this.operationsPerformed = 0;
     }

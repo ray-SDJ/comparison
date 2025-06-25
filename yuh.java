@@ -151,344 +151,328 @@ public class yuh {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            printMenu();
-            System.out.print("Enter your choice (1-5): ");
-            String choice = scanner.nextLine();
+            try {
+                printMenu();
+                System.out.print("Enter your choice (1-5): ");
+                String choice = scanner.nextLine();
 
-            if (choice.equals("5")) {
-                System.out.println("Goodbye!");
-                break;
-            }
+                if (choice.equals("5")) {
+                    System.out.println("Goodbye!");
+                    break;
+                }
 
-            System.out.print("Enter first number: ");
-            double num1 = Double.parseDouble(scanner.nextLine());
-            System.out.print("Enter second number: ");
-            double num2 = Double.parseDouble(scanner.nextLine());
+                System.out.print("Enter first number: ");
+                double num1 = Double.parseDouble(scanner.nextLine());
+                System.out.print("Enter second number: ");
+                double num2 = Double.parseDouble(scanner.nextLine());
 
-            switch (choice) {
-                case "1":
-                    System.out.println("Result: " + calc.add(num1, num2));
-                    break;
-                case "2":
-                    System.out.println("Result: " + calc.subtract(num1, num2));
-                    break;
-                case "3":
-                    System.out.println("Result: " + calc.multiply(num1, num2));
-                    break;
-                case "4":
-                    System.out.println("Result: " + calc.divide(num1, num2));
-                    break;
-                default:
-                    System.out.println("Invalid choice!");
+                switch (choice) {
+                    case "1":
+                        System.out.println("Result: " + calc.add(num1, num2));
+                        break;
+                    case "2":
+                        System.out.println("Result: " + calc.subtract(num1, num2));
+                        break;
+                    case "3":
+                        System.out.println("Result: " + calc.multiply(num1, num2));
+                        break;
+                    case "4":
+                        System.out.println("Result: " + calc.divide(num1, num2));
+                        break;
+                    default:
+                        System.out.println("Invalid choice!");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Please enter valid numbers. " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("An unexpected error occurred: " + e.getMessage());
             }
         }
         scanner.close();
     }
 }
 
-Java Methods Cheatsheet for Strings, Arrays, and Objects
-String Methods
-String str = "Hello, World!";
-
-
-
-
-Method
-Description
-Example
-
-
-
-length()
-Returns the length of the string
-str.length() → 13
-
-
-charAt(int index)
-Returns the character at the specified index
-str.charAt(0) → 'H'
-
-
-substring(int begin)
-Returns a substring from begin index to end
-str.substring(7) → "World!"
-
-
-substring(int begin, int end)
-Returns a substring from begin to end index
-str.substring(0, 5) → "Hello"
-
-
-toLowerCase()
-Converts string to lowercase
-str.toLowerCase() → "hello, world!"
-
-
-toUpperCase()
-Converts string to uppercase
-str.toUpperCase() → "HELLO, WORLD!"
-
-
-trim()
-Removes leading/trailing whitespace
-"  hi  ".trim() → "hi"
-
-
-replace(char old, char new)
-Replaces all occurrences of old char with new
-str.replace('l', 'p') → "Heppo, Worpd!"
-
-
-replaceAll(String regex, String replacement)
-Replaces matches of regex with replacement
-str.replaceAll("World", "Java") → "Hello, Java!"
-
-
-contains(CharSequence s)
-Checks if string contains the specified sequence
-str.contains("World") → true
-
-
-startsWith(String prefix)
-Checks if string starts with prefix
-str.startsWith("Hello") → true
-
-
-endsWith(String suffix)
-Checks if string ends with suffix
-str.endsWith("!") → true
-
-
-indexOf(String str)
-Returns index of first occurrence of str
-str.indexOf("o") → 4
-
-
-lastIndexOf(String str)
-Returns index of last occurrence of str
-str.lastIndexOf("o") → 8
-
-
-split(String regex)
-Splits string into array based on regex
-str.split(", ")[0] → "Hello"
-
-
-equals(Object obj)
-Compares string with another for equality
-str.equals("Hello, World!") → true
-
-
-equalsIgnoreCase(String another)
-Case-insensitive comparison
-str.equalsIgnoreCase("hello, world!") → true
-
-
-isEmpty()
-Checks if string is empty
-str.isEmpty() → false
-
-
-Array Methods
-int[] arr = {1, 2, 3, 4, 5};
-
-
-
-
-Method/Operation
-Description
-Example
-
-
-
-length
-Returns the size of the array
-arr.length → 5
-
-
-Arrays.toString(arr)
-Converts array to string
-Arrays.toString(arr) → "[1, 2, 3, 4, 5]"
-
-
-Arrays.sort(arr)
-Sorts array in ascending order
-Arrays.sort(arr) → [1, 2, 3, 4, 5]
-
-
-Arrays.binarySearch(arr, key)
-Searches for key in sorted array
-Arrays.binarySearch(arr, 3) → 2
-
-
-Arrays.copyOf(arr, newLength)
-Copies array to new length
-Arrays.copyOf(arr, 3) → [1, 2, 3]
-
-
-Arrays.copyOfRange(arr, from, to)
-Copies range of array
-Arrays.copyOfRange(arr, 1, 4) → [2, 3, 4]
-
-
-Arrays.fill(arr, value)
-Fills array with specified value
-Arrays.fill(arr, 0) → [0, 0, 0, 0, 0]
-
-
-Arrays.equals(arr1, arr2)
-Compares two arrays for equality
-Arrays.equals(arr, new int[]{1,2,3,4,5}) → true
-
-
-System.arraycopy(src, srcPos, dest, destPos, length)
-Copies elements from one array to another
-System.arraycopy(arr, 0, newArr, 0, 3) → [1, 2, 3]
-
-
-ArrayList Methods (java.util.ArrayList)
-ArrayList<Integer> list = new ArrayList<>();
-
-
-
-
-Method
-Description
-Example
-
-
-
-add(E element)
-Adds element to list
-list.add(1) → [1]
-
-
-add(int index, E element)
-Adds element at index
-list.add(0, 2) → [2, 1]
-
-
-get(int index)
-Returns element at index
-list.get(0) → 2
-
-
-set(int index, E element)
-Replaces element at index
-list.set(0, 3) → [3, 1]
-
-
-remove(int index)
-Removes element at index
-list.remove(0) → [1]
-
-
-size()
-Returns list size
-list.size() → 1
-
-
-clear()
-Removes all elements
-list.clear() → []
-
-
-contains(Object o)
-Checks if list contains element
-list.contains(1) → true
-
-
-toArray()
-Converts list to array
-list.toArray() → [1]
-
-
-Object Methods
-All classes inherit from java.lang.Object. Key methods:
-Object obj = new Object();
-
-
-
-
-Method
-Description
-Example
-
-
-
-toString()
-Returns string representation of object
-obj.toString() → "java.lang.Object@..."
-
-
-equals(Object obj)
-Compares object with another for equality
-obj.equals(new Object()) → false
-
-
-hashCode()
-Returns hash code of object
-obj.hashCode() → int value
-
-
-getClass()
-Returns runtime class of object
-obj.getClass() → class java.lang.Object
-
-
-clone()
-Creates a copy of object (if Cloneable)
-obj.clone() → new Object (if implemented)
-
-
-finalize()
-Called by garbage collector (deprecated)
-Rarely used
-
-
-wait()
-Causes thread to wait until notified
-obj.wait() → pauses thread
-
-
-notify()
-Wakes up a single waiting thread
-obj.notify() → resumes thread
-
-
-notifyAll()
-Wakes up all waiting threads
-obj.notifyAll() → resumes all threads
-
-
-Best Practices
-
-Strings: Use StringBuilder for heavy string manipulation; prefer equals() over ==.
-Arrays: Use Arrays utility class for common operations; consider ArrayList for dynamic sizing.
-Objects: Override toString(), equals(), and hashCode() for custom classes; use getClass() for type checking.
-
-Example Usage
-public class Example {
-    public static void main(String[] args) {
-        // String
-        String str = "Hello, World!";
-        System.out.println(str.toUpperCase()); // HELLO, WORLD!
-        System.out.println(str.substring(7)); // World!
-
-        // Array
-        int[] arr = {5, 2, 8, 1};
-        Arrays.sort(arr);
-        System.out.println(Arrays.toString(arr)); // [1, 2, 5, 8]
-
-        // ArrayList
-        ArrayList<String> list = new ArrayList<>();
-        list.add("Java");
-        list.add("Python");
-        System.out.println(list.get(0)); // Java
-
-        // Object
-        Object obj = new Object();
-        System.out.println(obj.toString()); // java.lang.Object@...
+/*
+ * JAVA ERROR AND EXCEPTION HANDLING - CONCEPTS EXPLAINED
+ * 
+ * WHAT ARE EXCEPTIONS?
+ * Exceptions are unexpected events that occur during program execution that disrupt
+ * the normal flow of instructions. They represent error conditions that a program
+ * can potentially recover from, unlike system errors which usually terminate the program.
+ * 
+ * WHY USE EXCEPTION HANDLING?
+ * 1. Separate error handling code from normal program flow
+ * 2. Propagate errors up the call stack to appropriate handlers
+ * 3. Group related error types together
+ * 4. Provide meaningful error information to users and developers
+ * 5. Enable graceful recovery from error conditions
+ * 6. Ensure resource cleanup even when errors occur
+ * 
+ * JAVA'S EXCEPTION HANDLING PHILOSOPHY:
+ * Java uses a "try-catch-finally" approach where:
+ * - You "try" to execute risky code
+ * - You "catch" specific types of exceptions that might occur
+ * - You "finally" execute cleanup code regardless of success or failure
+ * 
+ * CHECKED vs UNCHECKED EXCEPTIONS:
+ * 
+ * CHECKED EXCEPTIONS (Compile-time enforcement):
+ * - Must be either caught or declared in method signature
+ * - Represent recoverable conditions (file not found, network timeout)
+ * - Examples: IOException, SQLException, ClassNotFoundException
+ * - Compiler forces you to handle them
+ * 
+ * UNCHECKED EXCEPTIONS (Runtime exceptions):
+ * - Don't need to be explicitly caught or declared
+ * - Represent programming errors that should be fixed in code
+ * - Examples: NullPointerException, ArrayIndexOutOfBoundsException
+ * - Can be caught but typically indicate bugs in the code
+ * 
+ * Java has a robust exception handling system using try-catch-finally blocks
+ * and a hierarchy of exception classes.
+ * 
+ * Exception Hierarchy:
+ * - Throwable (top-level)
+ *   ├── Error (system errors, usually not caught)
+ *   └── Exception
+ *       ├── RuntimeException (unchecked exceptions)
+ *       │   ├── NullPointerException
+ *       │   ├── ArrayIndexOutOfBoundsException
+ *       │   ├── NumberFormatException
+ *       │   └── IllegalArgumentException
+ *       └── Checked Exceptions (must be handled)
+ *           ├── IOException
+ *           ├── SQLException
+ *           └── ClassNotFoundException
+ * 
+ * 1. TRY-CATCH-FINALLY EXPLAINED:
+ * 
+ * TRY BLOCK: Contains code that might throw an exception
+ * CATCH BLOCK: Handles specific types of exceptions
+ * FINALLY BLOCK: Always executes, used for cleanup (optional)
+ * 
+ * Flow of execution:
+ * 1. Code in try block executes normally
+ * 2. If exception occurs, execution jumps to appropriate catch block
+ * 3. Finally block executes regardless of whether exception occurred
+ * 4. Program continues after the try-catch-finally structure
+ */
+class ExceptionHandlingExample {
+    /*
+     * BASIC EXCEPTION HANDLING EXPLANATION:
+     * 
+     * The try-catch-finally structure allows you to:
+     * 1. Attempt risky operations in the try block
+     * 2. Handle specific errors in catch blocks
+     * 3. Perform cleanup in the finally block (always runs)
+     * 
+     * This prevents your program from crashing and allows graceful error handling.
+     */
+    public void demonstrateExceptionHandling() {
+        try {
+            // Code that might throw an exception
+            int result = 10 / 0;  // ArithmeticException
+        } catch (ArithmeticException e) {
+            // Handle specific exception
+            System.out.println("Cannot divide by zero: " + e.getMessage());
+        } catch (Exception e) {
+            // Handle any other exception (catch-all)
+            System.out.println("General error: " + e.getMessage());
+        } finally {
+            // Always executes (cleanup code)
+            System.out.println("Cleanup operations");
+        }
+    }
+
+    /*
+     * MULTIPLE CATCH BLOCKS EXPLANATION:
+     * 
+     * You can have multiple catch blocks to handle different types of exceptions
+     * differently. Java checks catch blocks in order from top to bottom, so:
+     * 1. Put more specific exceptions first
+     * 2. Put general exceptions last
+     * 3. Each catch block handles a different error scenario
+     */
+    public void multipleExceptions() {
+        try {
+            String str = null;
+            int length = str.length();  // NullPointerException
+            int[] arr = new int[5];
+            arr[10] = 1;  // ArrayIndexOutOfBoundsException
+        } catch (NullPointerException e) {
+            System.out.println("Null pointer error: " + e.getMessage());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Array index error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Other error: " + e.getMessage());
+        }
+    }
+
+    /*
+     * MULTI-CATCH EXPLANATION (Java 7+):
+     * 
+     * When you want to handle multiple exception types the same way,
+     * you can use the pipe (|) operator to catch multiple exceptions
+     * in a single catch block. This reduces code duplication.
+     */
+    public void multiCatch() {
+        try {
+            // Some risky code
+            performRiskyOperation();
+        } catch (IOException | SQLException e) {
+            // Handle multiple exception types the same way
+            System.out.println("IO or SQL error: " + e.getMessage());
+        }
+    }
+
+    /*
+     * THROWS DECLARATION EXPLANATION:
+     * 
+     * When a method might throw a checked exception but doesn't want to handle it,
+     * it can declare that it "throws" the exception. This means:
+     * 1. The method passes the responsibility to its caller
+     * 2. The caller must either catch the exception or declare throws as well
+     * 3. This creates a chain of responsibility up the call stack
+     */
+    public void methodThatThrows() throws IOException, SQLException {
+        // Method declares it might throw these exceptions
+        // Caller must handle or declare throws
+    }
+
+    /*
+     * THROW STATEMENT EXPLANATION:
+     * 
+     * You can manually throw exceptions when you detect error conditions.
+     * This is useful for:
+     * 1. Input validation
+     * 2. Business logic validation
+     * 3. Converting between exception types
+     * 4. Adding context to existing exceptions
+     */
+    public void validateAge(int age) {
+        if (age < 0) {
+            throw new IllegalArgumentException("Age cannot be negative: " + age);
+        }
+        if (age > 150) {
+            throw new IllegalArgumentException("Age seems unrealistic: " + age);
+        }
+    }
+
+    /*
+     * CUSTOM EXCEPTIONS EXPLANATION:
+     * 
+     * You can create your own exception classes by extending Exception
+     * or RuntimeException. Custom exceptions are useful for:
+     * 1. Domain-specific error conditions
+     * 2. Adding additional error information
+     * 3. Creating a hierarchy of related errors
+     * 4. Making error handling more specific to your application
+     */
+    public static class CustomCalculatorException extends Exception {
+        public CustomCalculatorException(String message) {
+            super(message);
+        }
+    }
+
+    public double safeDivide(double a, double b) throws CustomCalculatorException {
+        if (b == 0) {
+            throw new CustomCalculatorException("Division by zero is not allowed");
+        }
+        return a / b;
+    }
+
+    /*
+     * TRY-WITH-RESOURCES EXPLANATION (Java 7+):
+     * 
+     * This is a special form of try statement that automatically manages resources.
+     * Resources declared in the try parentheses are automatically closed when:
+     * 1. The try block completes successfully
+     * 2. An exception occurs
+     * 3. The resource implements AutoCloseable interface
+     * 
+     * This prevents resource leaks and eliminates the need for manual cleanup.
+     */
+    public void tryWithResources() {
+        // Automatically closes resources
+        try (Scanner scanner = new Scanner(System.in);
+             FileWriter writer = new FileWriter("output.txt")) {
+            
+            String input = scanner.nextLine();
+            writer.write(input);
+            
+        } catch (IOException e) {
+            System.out.println("IO Error: " + e.getMessage());
+        }
+        // Resources are automatically closed
+    }
+
+    /*
+     * EXCEPTION CHAINING EXPLANATION:
+     * 
+     * Sometimes you want to catch an exception and throw a different one,
+     * but you don't want to lose the original error information. Exception
+     * chaining allows you to:
+     * 1. Wrap low-level exceptions in high-level ones
+     * 2. Preserve the original stack trace
+     * 3. Add context while maintaining the root cause
+     */
+    public void exceptionChaining() {
+        try {
+            methodThatFails();
+        } catch (Exception e) {
+            // Wrap and re-throw with more context
+            throw new RuntimeException("Failed in main operation", e);
+        }
+    }
+
+    private void methodThatFails() throws Exception {
+        throw new Exception("Original failure");
+    }
+
+    private void performRiskyOperation() throws IOException, SQLException {
+        // Implementation details
     }
 }
+
+/*
+ * KEY CONCEPTS EXPLAINED:
+ * 
+ * 1. EXCEPTION OBJECTS: When an error occurs, Java creates an exception object
+ *    containing information about the error (message, stack trace, cause)
+ * 
+ * 2. STACK UNWINDING: When an exception is thrown, Java unwinds the call stack
+ *    looking for a matching catch block, calling finally blocks along the way
+ * 
+ * 3. EXCEPTION PROPAGATION: If no catch block handles an exception, it propagates
+ *    up the call stack until handled or the program terminates
+ * 
+ * 4. RESOURCE MANAGEMENT: Use try-with-resources or finally blocks to ensure
+ *    resources (files, connections) are properly closed even if errors occur
+ * 
+ * 5. CHECKED vs UNCHECKED: Checked exceptions must be handled (compiler enforced),
+ *    unchecked exceptions are optional but indicate programming errors
+ * 
+ * BEST PRACTICES:
+ * 
+ * 1. Catch specific exceptions before general ones
+ * 2. Use finally for cleanup code
+ * 3. Don't catch and ignore exceptions
+ * 4. Use try-with-resources for automatic resource management
+ * 5. Create meaningful exception messages
+ * 6. Log exceptions for debugging
+ * 7. Don't use exceptions for control flow
+ * 8. Prefer unchecked exceptions for programming errors
+ * 9. Use checked exceptions for recoverable conditions
+ * 10. Clean up resources in finally or use try-with-resources
+ * 
+ * COMMON EXCEPTIONS:
+ * - NullPointerException: Accessing null reference
+ * - ArrayIndexOutOfBoundsException: Invalid array index
+ * - NumberFormatException: Invalid number format
+ * - IllegalArgumentException: Invalid method argument
+ * - IOException: Input/output operations
+ * - SQLException: Database operations
+ * - ClassNotFoundException: Class loading issues
+ * - ConcurrentModificationException: Concurrent collection modification
+ */
 

@@ -1,5 +1,11 @@
 #include <iostream>
 #include <string>
+#include <exception>
+#include <stdexcept>
+#include <limits>
+#include <memory>
+#include <vector>
+#include <fstream>
 
 // Interface-like abstract class (pure virtual class in C++)
 class MathOperations {
@@ -109,368 +115,497 @@ int main() {
     double num1, num2;
 
     while (true) {
-        printMenu();
-        std::cout << "Enter your choice (1-5): ";
-        std::getline(std::cin, choice);
+        try {
+            printMenu();
+            std::cout << "Enter your choice (1-5): ";
+            std::getline(std::cin, choice);
 
-        if (choice == "5") {
-            std::cout << "Goodbye!" << std::endl;
-            break;
-        }
+            if (choice == "5") {
+                std::cout << "Goodbye!" << std::endl;
+                break;
+            }
 
-        std::cout << "Enter first number: ";
-        std::cin >> num1;
-        std::cout << "Enter second number: ";
-        std::cin >> num2;
-        std::cin.ignore();
+            if (choice != "1" && choice != "2" && choice != "3" && choice != "4") {
+                throw std::invalid_argument("Invalid choice. Please enter 1-5.");
+            }
 
-        if (choice == "1") {
-            std::cout << "Result: " << calc.add(num1, num2) << std::endl;
+            std::cout << "Enter first number: ";
+            if (!(std::cin >> num1)) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                throw std::invalid_argument("Invalid input for first number");
+            }
+            
+            std::cout << "Enter second number: ";
+            if (!(std::cin >> num2)) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                throw std::invalid_argument("Invalid input for second number");
+            }
+            std::cin.ignore();
+
+            if (choice == "1") {
+                std::cout << "Result: " << calc.add(num1, num2) << std::endl;
+            }
+            else if (choice == "2") {
+                std::cout << "Result: " << calc.subtract(num1, num2) << std::endl;
+            }
+            else if (choice == "3") {
+                std::cout << "Result: " << calc.multiply(num1, num2) << std::endl;
+            }
+            else if (choice == "4") {
+                if (num2 == 0) {
+                    throw std::runtime_error("Division by zero is not allowed");
+                }
+                std::cout << "Result: " << calc.divide(num1, num2) << std::endl;
+            }
         }
-        else if (choice == "2") {
-            std::cout << "Result: " << calc.subtract(num1, num2) << std::endl;
+        catch (const std::invalid_argument& e) {
+            std::cerr << "Input Error: " << e.what() << std::endl;
         }
-        else if (choice == "3") {
-            std::cout << "Result: " << calc.multiply(num1, num2) << std::endl;
+        catch (const std::runtime_error& e) {
+            std::cerr << "Runtime Error: " << e.what() << std::endl;
         }
-        else if (choice == "4") {
-            std::cout << "Result: " << calc.divide(num1, num2) << std::endl;
+        catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
         }
-        else {
-            std::cout << "Invalid choice!" << std::endl;
+        catch (...) {
+            std::cerr << "Unknown error occurred" << std::endl;
         }
     }
 
     return 0;
 }
 
-
-C++ Methods Cheatsheet for Strings, Arrays, and Objects
-String Methods (std::string)
-#include <string>
-std::string str = "Hello, World!";
-
-
-
-
-Method
-Description
-Example
-
-
-
-length() / size()
-Returns length of string
-str.length() → 13
-
-
-empty()
-Checks if string is empty
-str.empty() → false
-
-
-clear()
-Removes all characters
-str.clear() → ""
-
-
-append(str)
-Appends string
-str.append("!") → "Hello, World!!"
-
-
-push_back(char)
-Appends single character
-str.push_back('!') → "Hello, World!!"
-
-
-pop_back()
-Removes last character
-str.pop_back() → "Hello, World"
-
-
-substr(pos, len)
-Returns substring
-str.substr(7, 5) → "World"
-
-
-find(str)
-Returns index of first occurrence (or string::npos)
-str.find("World") → 7
-
-
-rfind(str)
-Returns index of last occurrence (or string::npos)
-str.rfind("o") → 8
-
-
-replace(pos, len, str)
-Replaces portion with new string
-str.replace(7, 5, "C++") → "Hello, C++!"
-
-
-at(index)
-Accesses character at index (with bounds checking)
-str.at(0) → 'H'
-
-
-operator[]
-Accesses character at index (no bounds checking)
-str[0] → 'H'
-
-
-c_str()
-Returns C-style string (const char*)
-str.c_str() → "Hello, World!"
-
-
-compare(str)
-Compares strings (0 if equal)
-str.compare("Hello, World!") → 0
-
-
-erase(pos, len)
-Removes characters
-str.erase(5, 2) → "HelloWorld!"
-
-
-insert(pos, str)
-Inserts string at position
-str.insert(5, ",") → "Hello,, World!"
-
-
-Array/Vector Methods (std::vector for dynamic arrays)
-#include <vector>
-std::vector<int> vec = {1, 2, 3, 4};
-
-
-
-
-Method
-Description
-Example
-
-
-
-size()
-Returns number of elements
-vec.size() → 4
-
-
-empty()
-Checks if vector is empty
-vec.empty() → false
-
-
-push_back(item)
-Adds element to end
-vec.push_back(5) → {1, 2, 3, 4, 5}
-
-
-pop_back()
-Removes last element
-vec.pop_back() → {1, 2, 3}
-
-
-front()
-Returns reference to first element
-vec.front() → 1
-
-
-back()
-Returns reference to last element
-vec.back() → 3
-
-
-at(index)
-Accesses element with bounds checking
-vec.at(1) → 2
-
-
-operator[]
-Accesses element (no bounds checking)
-vec[1] → 2
-
-
-clear()
-Removes all elements
-vec.clear() → {}
-
-
-insert(iterator, value)
-Inserts element at iterator position
-vec.insert(vec.begin() + 1, 1.5) → {1, 1.5, 2, 3, 4}
-
-
-erase(iterator)
-Removes element at iterator
-vec.erase(vec.begin()) → {2, 3, 4}
-
-
-resize(n)
-Changes size (adds/removes elements)
-vec.resize(2) → {1, 2}
-
-
-reserve(n)
-Reserves capacity for n elements
-vec.reserve(10) → capacity ≥ 10
-
-
-capacity()
-Returns current capacity
-vec.capacity() → int
-
-
-Static Array (std::array for fixed-size arrays)
-#include <array>
-std::array<int, 4> arr = {1, 2, 3, 4};
-
-
-
-
-Method
-Description
-Example
-
-
-
-size()
-Returns number of elements
-arr.size() → 4
-
-
-empty()
-Checks if array is empty
-arr.empty() → false
-
-
-front()
-Returns reference to first element
-arr.front() → 1
-
-
-back()
-Returns reference to last element
-arr.back() → 4
-
-
-at(index)
-Accesses element with bounds checking
-arr.at(1) → 2
-
-
-operator[]
-Accesses element (no bounds checking)
-arr[1] → 2
-
-
-fill(value)
-Fills array with value
-arr.fill(0) → {0, 0, 0, 0}
-
-
-Algorithm Library (for arrays/vectors)
-#include <algorithm>
-
-
-std::sort(vec.begin(), vec.end()): Sorts vector
-std::find(vec.begin(), vec.end(), value): Finds element
-std::reverse(vec.begin(), vec.end()): Reverses vector
-std::copy(src.begin(), src.end(), dest.begin()): Copies elements
-
-Object Methods
-C++ objects are instances of classes/structs. Common methods are user-defined, but all objects can use:
-class MyClass {
+/*
+ * C++ ERROR AND EXCEPTION HANDLING
+ * 
+ * C++ provides exception handling through try-catch-throw mechanisms.
+ * The standard library includes a hierarchy of exception classes.
+ * 
+ * Exception Hierarchy:
+ * std::exception (base class)
+ * ├── std::logic_error
+ * │   ├── std::invalid_argument
+ * │   ├── std::domain_error
+ * │   ├── std::length_error
+ * │   └── std::out_of_range
+ * ├── std::runtime_error
+ * │   ├── std::range_error
+ * │   ├── std::overflow_error
+ * │   └── std::underflow_error
+ * ├── std::bad_alloc (memory allocation)
+ * ├── std::bad_cast (dynamic_cast)
+ * └── std::bad_typeid (typeid)
+ * 
+ * Required headers:
+ * #include <exception>
+ * #include <stdexcept>
+ * #include <limits>
+ */
+
+// 1. BASIC TRY-CATCH-THROW:
+class ExceptionExample {
 public:
-    int value;
-    MyClass(int v) : value(v) {}
+    void basicExceptionHandling() {
+        try {
+            // Code that might throw an exception
+            throw std::runtime_error("Something went wrong");
+        }
+        catch (const std::runtime_error& e) {
+            std::cout << "Runtime error: " << e.what() << std::endl;
+        }
+        catch (const std::exception& e) {
+            std::cout << "Standard exception: " << e.what() << std::endl;
+        }
+        catch (...) {
+            std::cout << "Unknown exception caught" << std::endl;
+        }
+    }
+
+    // 2. MULTIPLE EXCEPTION TYPES:
+    void multipleExceptions() {
+        try {
+            std::vector<int> vec{1, 2, 3};
+            vec.at(10); // throws std::out_of_range
+        }
+        catch (const std::out_of_range& e) {
+            std::cout << "Out of range: " << e.what() << std::endl;
+        }
+        catch (const std::invalid_argument& e) {
+            std::cout << "Invalid argument: " << e.what() << std::endl;
+        }
+        catch (const std::logic_error& e) {
+            std::cout << "Logic error: " << e.what() << std::endl;
+        }
+        catch (const std::exception& e) {
+            std::cout << "Standard exception: " << e.what() << std::endl;
+        }
+    }
+
+    // 3. FUNCTION THAT THROWS EXCEPTIONS:
+    double safeDivide(double a, double b) {
+        if (b == 0.0) {
+            throw std::invalid_argument("Division by zero");
+        }
+        return a / b;
+    }
+
+    // 4. EXCEPTION SPECIFICATIONS (deprecated in C++17):
+    // void oldStyleFunction() throw(std::runtime_error) {
+    //     throw std::runtime_error("Error");
+    // }
+
+    // Modern C++: use noexcept
+    void noThrowFunction() noexcept {
+        // This function promises not to throw
+        // If it does throw, std::terminate is called
+    }
 };
-MyClass obj(42);
 
+// 5. CUSTOM EXCEPTION CLASSES:
+class CalculatorException : public std::exception {
+private:
+    std::string message_;
+    
+public:
+    explicit CalculatorException(const std::string& message) 
+        : message_(message) {}
+    
+    const char* what() const noexcept override {
+        return message_.c_str();
+    }
+};
 
+class DivisionByZeroException : public CalculatorException {
+public:
+    DivisionByZeroException() 
+        : CalculatorException("Division by zero is not allowed") {}
+};
 
+class InvalidInputException : public CalculatorException {
+public:
+    explicit InvalidInputException(const std::string& details) 
+        : CalculatorException("Invalid input: " + details) {}
+};
 
-Feature
-Description
-Example
+// 6. ENHANCED CALCULATOR WITH EXCEPTION HANDLING:
+class SafeCalculator : public Calculator {
+public:
+    void validateInputs(double a, double b) const {
+        if (std::isnan(a) || std::isnan(b)) {
+            throw InvalidInputException("NaN values are not allowed");
+        }
+        if (std::isinf(a) || std::isinf(b)) {
+            throw InvalidInputException("Infinite values are not allowed");
+        }
+    }
 
+    double safeAdd(double a, double b) {
+        try {
+            validateInputs(a, b);
+            return add(a, b);
+        }
+        catch (const InvalidInputException&) {
+            throw; // Re-throw
+        }
+        catch (...) {
+            throw std::runtime_error("Unknown error in addition");
+        }
+    }
 
+    double safeDivide(double a, double b) {
+        validateInputs(a, b);
+        if (b == 0.0) {
+            throw DivisionByZeroException();
+        }
+        
+        double result = a / b;
+        if (std::isinf(result)) {
+            throw std::overflow_error("Division result is infinite");
+        }
+        return result;
+    }
+};
 
-Constructor
-Initializes object
-MyClass obj(42);
+// 7. RESOURCE MANAGEMENT WITH EXCEPTIONS (RAII):
+class FileHandler {
+private:
+    std::ifstream file_;
+    std::string filename_;
 
+public:
+    explicit FileHandler(const std::string& filename) 
+        : filename_(filename) {
+        file_.open(filename);
+        if (!file_.is_open()) {
+            throw std::runtime_error("Could not open file: " + filename);
+        }
+    }
+    
+    // Destructor automatically closes file (RAII)
+    ~FileHandler() {
+        if (file_.is_open()) {
+            file_.close();
+        }
+    }
+    
+    std::string readLine() {
+        std::string line;
+        if (!std::getline(file_, line)) {
+            throw std::runtime_error("Could not read from file: " + filename_);
+        }
+        return line;
+    }
+};
 
-Destructor
-Cleans up object
-~MyClass() {}
+// 8. SMART POINTERS AND EXCEPTION SAFETY:
+class MemoryExample {
+public:
+    void unsafeMemoryHandling() {
+        int* ptr = new int(42);
+        try {
+            // Some operation that might throw
+            riskyOperation();
+            delete ptr; // This might not be called if exception is thrown
+        }
+        catch (...) {
+            delete ptr; // Need to manually clean up
+            throw;
+        }
+    }
+    
+    void safeMemoryHandling() {
+        std::unique_ptr<int> ptr = std::make_unique<int>(42);
+        try {
+            // Some operation that might throw
+            riskyOperation();
+            // ptr automatically cleaned up
+        }
+        catch (...) {
+            // ptr automatically cleaned up even if exception occurs
+            throw;
+        }
+    }
 
+private:
+    void riskyOperation() {
+        throw std::runtime_error("Something went wrong");
+    }
+};
 
-Member Functions
-Custom methods
-int getValue() { return value; }
+// 9. EXCEPTION SAFETY LEVELS:
+class ExceptionSafetyExample {
+public:
+    // Basic exception safety: no resource leaks
+    void basicSafety() {
+        std::vector<int> vec;
+        try {
+            vec.push_back(1);
+            riskyOperation();
+            vec.push_back(2);
+        }
+        catch (...) {
+            // Vector is in valid but unspecified state
+            // No resource leaks
+        }
+    }
+    
+    // Strong exception safety: commit or rollback
+    void strongSafety() {
+        std::vector<int> original = data_;
+        try {
+            data_.push_back(1);
+            riskyOperation();
+            data_.push_back(2);
+        }
+        catch (...) {
+            data_ = original; // Rollback to original state
+            throw;
+        }
+    }
+    
+    // No-throw guarantee
+    void noThrowOperation() noexcept {
+        // This function guarantees it won't throw
+        try {
+            // Even if this throws, we catch it
+            riskyOperation();
+        }
+        catch (...) {
+            // Handle error without throwing
+        }
+    }
 
+private:
+    std::vector<int> data_;
+    
+    void riskyOperation() {
+        throw std::runtime_error("Error");
+    }
+};
 
-Operator Overloading
-Customizes operators
-bool operator==(const MyClass& other) { return value == other.value; }
-
-
-this Pointer
-Refers to current object
-this->value → 42
-
-
-Standard Object Methods (via inheritance or overloading)
-
-Copy Constructor: MyClass(const MyClass& other)
-Move Constructor: MyClass(MyClass&& other)
-Assignment Operator: MyClass& operator=(const MyClass& other)
-Comparison Operators: operator==, operator<, etc.
-to_string(): Often user-defined for string representation
-
-Best Practices
-
-Strings: Use std::string over C-style strings; prefer at() for safe access.
-Arrays/Vectors: Use std::vector for dynamic arrays; std::array for fixed-size; check bounds with at().
-Objects: Define copy/move constructors and assignment operators for resource management; use const for methods that don’t modify state.
-
-Example Usage
-#include <iostream>
-#include <string>
-#include <vector>
-#include <array>
-
-int main() {
-    // String
-    std::string str = "Hello, World!";
-    std::cout << str.substr(7) << std::endl; // World!
-    str.replace(7, 5, "C++");
-    std::cout << str << std::endl; // Hello, C++!
-
-    // Vector
-    std::vector<int> vec = {5, 2, 3};
-    vec.push_back(4);
-    std::sort(vec.begin(), vec.end());
-    for (int x : vec) std::cout << x << " "; // 2 3 4 5
-    std::cout << std::endl;
-
-    // Array
-    std::array<int, 3> arr = {1, 2, 3};
-    arr.fill(0);
-    std::cout << arr[0] << std::endl; // 0
-
-    // Object
-    class MyClass {
-    public:
-        int value;
-        MyClass(int v) : value(v) {}
-        std::string to_string() const { return std::to_string(value); }
-    };
-    MyClass obj(42);
-    std::cout << obj.to_string() << std::endl; // 42
-
-    return 0;
+// 10. NESTED EXCEPTION HANDLING:
+void nestedExceptionExample() {
+    try {
+        try {
+            throw std::runtime_error("Inner exception");
+        }
+        catch (const std::runtime_error& e) {
+            std::cout << "Caught inner: " << e.what() << std::endl;
+            throw std::logic_error("Outer exception");
+        }
+    }
+    catch (const std::logic_error& e) {
+        std::cout << "Caught outer: " << e.what() << std::endl;
+    }
 }
+
+// 11. FUNCTION TRY BLOCKS (for constructors):
+class ConstructorExceptionExample {
+private:
+    std::unique_ptr<int> data_;
+    
+public:
+    ConstructorExceptionExample(int value) 
+    try : data_(std::make_unique<int>(value)) {
+        if (value < 0) {
+            throw std::invalid_argument("Negative values not allowed");
+        }
+    }
+    catch (const std::bad_alloc&) {
+        // Handle memory allocation failure
+        throw std::runtime_error("Could not allocate memory");
+    }
+    catch (const std::invalid_argument&) {
+        // Handle invalid argument
+        throw; // Re-throw
+    }
+};
+
+// 12. EXCEPTION HANDLING IN DESTRUCTORS:
+class DestructorExample {
+public:
+    ~DestructorExample() {
+        try {
+            // Cleanup operations
+            performCleanup();
+        }
+        catch (...) {
+            // Never let exceptions escape from destructors
+            // Log error but don't throw
+            std::cerr << "Error during cleanup" << std::endl;
+        }
+    }
+
+private:
+    void performCleanup() {
+        // Cleanup code that might throw
+    }
+};
+
+// 13. STACK UNWINDING DEMONSTRATION:
+class StackUnwindingExample {
+public:
+    StackUnwindingExample(const std::string& name) : name_(name) {
+        std::cout << "Constructing " << name_ << std::endl;
+    }
+    
+    ~StackUnwindingExample() {
+        std::cout << "Destructing " << name_ << std::endl;
+    }
+
+private:
+    std::string name_;
+};
+
+void demonstrateStackUnwinding() {
+    try {
+        StackUnwindingExample obj1("Object1");
+        StackUnwindingExample obj2("Object2");
+        
+        throw std::runtime_error("Exception thrown");
+        
+        StackUnwindingExample obj3("Object3"); // Never constructed
+    }
+    catch (const std::exception& e) {
+        std::cout << "Caught: " << e.what() << std::endl;
+        // obj2 and obj1 destructors called during stack unwinding
+    }
+}
+
+// 14. ERROR HANDLING UTILITY FUNCTIONS:
+template<typename T>
+class Result {
+private:
+    bool success_;
+    T value_;
+    std::string error_;
+
+public:
+    Result(T value) : success_(true), value_(std::move(value)) {}
+    Result(std::string error) : success_(false), error_(std::move(error)) {}
+    
+    bool isSuccess() const { return success_; }
+    const T& getValue() const { 
+        if (!success_) throw std::runtime_error("No value in error result");
+        return value_; 
+    }
+    const std::string& getError() const { return error_; }
+};
+
+Result<double> safeCalculation(double a, double b, char op) {
+    try {
+        switch (op) {
+            case '+': return Result<double>(a + b);
+            case '-': return Result<double>(a - b);
+            case '*': return Result<double>(a * b);
+            case '/': 
+                if (b == 0) return Result<double>("Division by zero");
+                return Result<double>(a / b);
+            default: 
+                return Result<double>("Unknown operation");
+        }
+    }
+    catch (const std::exception& e) {
+        return Result<double>(std::string("Error: ") + e.what());
+    }
+}
+
+/*
+ * C++ EXCEPTION HANDLING BEST PRACTICES:
+ * 
+ * 1. Use RAII for resource management
+ * 2. Catch exceptions by const reference
+ * 3. Use specific exception types
+ * 4. Don't throw exceptions from destructors
+ * 5. Use noexcept for functions that don't throw
+ * 6. Prefer smart pointers for automatic cleanup
+ * 7. Implement proper exception safety levels
+ * 8. Use standard exception classes when appropriate
+ * 9. Provide strong exception safety when possible
+ * 10. Handle exceptions at appropriate levels
+ * 
+ * EXCEPTION SAFETY LEVELS:
+ * 1. No-throw guarantee: Function never throws
+ * 2. Strong guarantee: Commit or rollback semantics
+ * 3. Basic guarantee: No resource leaks, valid state
+ * 4. No guarantee: Anything can happen
+ * 
+ * COMMON STANDARD EXCEPTIONS:
+ * - std::invalid_argument: Invalid function argument
+ * - std::out_of_range: Index out of bounds
+ * - std::runtime_error: Runtime condition error
+ * - std::logic_error: Programming logic error
+ * - std::bad_alloc: Memory allocation failure
+ * - std::overflow_error: Arithmetic overflow
+ * - std::underflow_error: Arithmetic underflow
+ * 
+ * MEMORY MANAGEMENT:
+ * - Use smart pointers (unique_ptr, shared_ptr)
+ * - Follow RAII principles
+ * - Avoid raw pointers for ownership
+ * - Use containers instead of raw arrays
+ * - Implement proper copy/move semantics
+ */
 

@@ -1,3 +1,13 @@
+// File Handling Tutorial in JavaScript (Node.js)
+const fs = require("fs");
+
+// Writing to a file
+fs.writeFileSync("example.txt", "Hello, world!\n");
+
+// Reading from a file
+const content = fs.readFileSync("example.txt", "utf8");
+console.log("File content:", content);
+
 // Interface-like contract (JavaScript doesn't have true interfaces)
 // We can use JSDoc to document expected methods
 /**

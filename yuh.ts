@@ -43,6 +43,16 @@ class Calculator extends AbstractCalculator implements MathOperations {
     return this.#result;
   }
 
+// File Handling Tutorial in TypeScript (Node.js)
+import * as fs from 'fs';
+
+// Writing to a file
+fs.writeFileSync('example.txt', 'Hello, world!\n');
+
+// Reading from a file
+const content = fs.readFileSync('example.txt', 'utf8');
+console.log('File content:', content);
+
   // Implementation of interface methods
   performOperation(a: number, b: number): number {
     return this.add(a, b);

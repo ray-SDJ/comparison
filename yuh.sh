@@ -110,6 +110,14 @@ multiply() {
     
     echo "$result"
 }
+# File Handling Tutorial in Shell Script
+# Writing to a file
+echo "Hello, world!" > example.txt
+
+# Reading from a file
+content=$(cat example.txt)
+echo "File content: $content"
+
 
 divide() {
     local num1=$1

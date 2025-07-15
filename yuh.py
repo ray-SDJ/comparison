@@ -1,3 +1,13 @@
+# File Handling Tutorial in Python
+# Writing to a file
+with open('example.txt', 'w') as f:
+    f.write('Hello, world!\n')
+
+# Reading from a file
+with open('example.txt', 'r') as f:
+    content = f.read()
+    print('File content:', content)
+
 # A simple calculator program to demonstrate Python program structure
 # here is how we import the modules
 import math

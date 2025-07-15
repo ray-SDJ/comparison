@@ -8,6 +8,23 @@
 #include <fstream>
 
 // Interface-like abstract class (pure virtual class in C++)
+#include <fstream>
+
+// File Handling Tutorial in C++
+int main() {
+    // Writing to a file
+    ofstream outfile("example.txt");
+    outfile << "Hello, world!\n";
+    outfile.close();
+
+    // Reading from a file
+    ifstream infile("example.txt");
+    string content;
+    getline(infile, content);
+    cout << "File content: " << content << endl;
+    infile.close();
+    return 0;
+}
 class MathOperations {
 public:
     virtual double performOperation(double a, double b) = 0;
